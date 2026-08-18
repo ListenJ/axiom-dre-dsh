@@ -38,8 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ListenJ/axiom-dre-dsh.git",
-    "directory": "plugins/dre-dsh"
+    "url": "git+https://github.com/ListenJ/axiom-dre-dsh.git"
   },
   "homepage": "https://github.com/ListenJ/axiom-dre-dsh#readme",
   "bugs": {
