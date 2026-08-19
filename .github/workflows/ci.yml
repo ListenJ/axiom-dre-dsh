@@ -51,3 +51,22 @@ jobs:
         run: bun test --timeout 60000 tests/
         env:
           NODE_ENV: test
+  npm-build:
+    name: npm install + build + pack (Node.js path)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install via npm
+        run: npm install --no-audit --no-fund
+
+      - name: Build via npm (tsc)
+        run: npm run build
+
+      - name: Verify npm tarball (lib + backend + README + patch)
+        run: npm pack --dry-run

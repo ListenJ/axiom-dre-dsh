@@ -1,0 +1,44 @@
+name: npm-publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "true = 发布到 npm；false = 仅构建 + dry-run"
+        required: true
+        default: false
+        type: boolean
+  push:
+    tags:
+      - "v*"
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  publish:
+    name: Build & Publish to npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js (npm registry)
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies (npm)
+        run: npm install --no-audit --no-fund
+
+      - name: Build (tsc)
+        run: npm run build
+
+      - name: Verify npm tarball
+        run: npm pack --dry-run
+
+      - name: Publish to npm
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.publish == 'true')
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
