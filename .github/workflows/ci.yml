@@ -38,6 +38,10 @@ jobs:
       - name: Build bridge
         run: bun run build
 
+      - name: Verify lib/ is in sync with src
+        run: |
+          git diff --exit-code lib || { echo "::error::lib/ is out of sync with src. Run: bun run build, then commit the regenerated lib."; exit 1; }
+
       - name: Verify bundled backend is runnable
         run: |
           test -f backend/server.js && head -c 20 backend/server.js | grep -q '@bun'
