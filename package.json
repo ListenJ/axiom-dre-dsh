@@ -25,17 +25,17 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && bun run build:backend",
+    "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "bun test --timeout 60000 tests/",
-    "build:backend": "bun build ../../src/dre/backend/mcp-server.ts --target=bun --outfile backend/server.js --minify"
+    "test": "bun test --timeout 60000 tests/"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
-    "typescript": "^5.6.0"
+    "typescript": "^5.6.0",
+    "@types/bun": "latest"
   },
   "license": "MIT",
   "repository": {
