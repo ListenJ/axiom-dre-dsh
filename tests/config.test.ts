@@ -1,9 +1,10 @@
 import path from 'node:path'
+import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { describe, test, expect } from 'bun:test'
 import { normalizeConfig, resolveAxiomHome, checkAxiomHome, configSummary } from '../src/config.js'
 
-const REPO = path.resolve(import.meta.dir, '..', '..', '..')
 const HERE = 'file:///C:/repo/plugins/dre-dsh/src/index.ts'
 
 describe('resolveAxiomHome', () => {
@@ -72,8 +73,12 @@ describe('normalizeConfig', () => {
 })
 
 describe('checkAxiomHome', () => {
-  test('当前仓库根有效', () => {
-    const r = checkAxiomHome(REPO)
+  test('含 src/main.ts 与 src/mcp/server.ts 的目录有效（临时目录，环境无关）', () => {
+    const dir = mkdtempSync(path.join(tmpdir(), 'axiom-home-'))
+    mkdirSync(path.join(dir, 'src', 'mcp'), { recursive: true })
+    writeFileSync(path.join(dir, 'src', 'main.ts'), '')
+    writeFileSync(path.join(dir, 'src', 'mcp', 'server.ts'), '')
+    const r = checkAxiomHome(dir)
     expect(r.ok).toBe(true)
     expect(r.missing).toEqual([])
   })
