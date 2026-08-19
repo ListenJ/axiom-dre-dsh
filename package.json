@@ -4,7 +4,7 @@
   "description": "Axiom Deterministic Reasoning Engine (DRE) as a DeepSeek Harness (dsh) plugin: bridges the DRE knowledge-verification / deterministic-cognition / constraint-solving / synapse-memory tools into dsh under the `dre__` prefix to strengthen information certainty.",
   "type": "module",
   "main": "lib/index.js",
-  "types": "lib/types/index.d.ts",
+  "types": "lib/types.d.ts",
   "exports": {
     ".": {
       "types": "./lib/types/index.d.ts",
